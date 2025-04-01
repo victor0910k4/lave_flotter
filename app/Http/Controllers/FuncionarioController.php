@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 
 class FuncionarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public readonly Funcionario $funcionario;
+    public function __construct()
+    {
+        $this->funcionario = new Funcionario();
+    }
     public function index()
     {
         //

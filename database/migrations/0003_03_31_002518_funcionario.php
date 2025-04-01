@@ -15,6 +15,10 @@ return new class extends Migration
 
             $table->id('id_funcionario');
             $table->string('nome_func', 45);
+            $table->date('data_nasc');
+            $table->string('email')->unique();
+            $table->string('numero_tel', 30)->unique();
+            $table->integer('cpf')->unique();
 
             $table->timestamps();
         });

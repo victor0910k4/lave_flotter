@@ -15,7 +15,7 @@ class CategoriaFuncionarioController extends Controller
     public function index()
     {
         $categorias_funcionarios = $this->categoriafuncionario->all();
-        return view('categoria', compact('categorias'));
+        return view('categoria_funcionario_pasta.categoria_funcionario', compact('categorias'));
     }
 
     /**
@@ -23,7 +23,7 @@ class CategoriaFuncionarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('categoria_funcionario_pasta.criar');
     }
 
     /**
@@ -37,7 +37,7 @@ class CategoriaFuncionarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(categoria_funcionario $categoria_funcionario)
+    public function show($id)
     {
         //
     }
@@ -47,13 +47,13 @@ class CategoriaFuncionarioController extends Controller
      */
     public function edit(categoria_funcionario $categoria_funcionario)
     {
-        //
+        return view('categoria_funcionario_pasta.editar', ['categoria_funcionario' => $categoria_funcionario]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, categoria_funcionario $categoria_funcionario)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -61,8 +61,10 @@ class CategoriaFuncionarioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(categoria_funcionario $categoria_funcionario)
+    public function destroy(string $id)
     {
-        //
+        $this->categoria_funcionario->where('id_categoria_func', $id)->delete();
+
+    return redirect()->route('categoria_func.index');
     }
 }

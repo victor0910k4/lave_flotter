@@ -15,6 +15,8 @@ return new class extends Migration
 
             $table->id('id_categoria_funcionario');
             $table->string('nome_cat_func', 45);
+            $table->Integer('cargo')->default(6);
+
             $table->unsignedBigInteger('categoria_id_funcionario')->nullable();
 
             $table->foreign('categoria_id_funcionario')->references('id_funcionario')->on('funcionario');

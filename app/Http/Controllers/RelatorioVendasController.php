@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 
 class RelatorioVendasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public readonly RelatorioVendas $relatoriovendas;
+    public function __construct()
+    {
+        $this->relatoriovendas = new RelatorioVendas();
+    }
     public function index()
     {
         //

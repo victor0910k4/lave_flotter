@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 
 class CategoriaProdutoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public readonly CategoriaProduto $categoriaproduto;
+    public function __construct()
+    {
+        $this->categoriaproduto = new CategoriaProduto();
+    }
     public function index()
     {
         //
