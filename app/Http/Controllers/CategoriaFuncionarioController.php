@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\categoria_funcionario;
+use App\Models\CategoriaFuncionario;
 use Illuminate\Http\Request;
 
 class CategoriaFuncionarioController extends Controller
 {
-    public readonly Categoriafuncionario $categoriafuncionario;
+    public readonly CategoriaFuncionario $categoriafuncionario;
+
     public function __construct()
     {
-        $this->categoriafuncionario = new Categoriafuncionario();
+        $this->categoriafuncionario = new CategoriaFuncionario();
     }
+
     public function index()
     {
-        $categorias_funcionarios = $this->categoriafuncionario->all();
-        return view('categoria_funcionario_pasta.categoria_funcionario', compact('categorias'));
+        $categorias = $this->categoriafuncionario->all();
+        return view('categoria_funcionario', compact('categorias'));
     }
 
     /**
@@ -31,7 +33,16 @@ class CategoriaFuncionarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $created = $this->categoriafuncionario->create([
+            'nome_cat_func' => 'required|string|max:30',
+            'cargo' => 'required|integer|default:6',
+        ]);
+
+        Categoriafuncionario::create([
+            'categoria_id_funcionario' => Auth::id(),
+            'titulo' => $request->input('titulo'),
+            'descricao' => $request->input('descricao'),
+        ]);
     }
 
     /**
@@ -45,7 +56,7 @@ class CategoriaFuncionarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(categoria_funcionario $categoria_funcionario)
+    public function edit(Request $request)
     {
         return view('categoria_funcionario_pasta.editar', ['categoria_funcionario' => $categoria_funcionario]);
     }
