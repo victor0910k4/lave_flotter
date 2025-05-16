@@ -17,9 +17,8 @@ return new class extends Migration
             $table->string('nome', 45);
             $table->string('arcana', 45);
             $table->string('nivel');
-
-
             $table->timestamps();
+            
         });
 
     }
