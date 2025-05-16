@@ -2,66 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\categoria_produto;
+use App\Models\Persona;
 use Illuminate\Http\Request;
 
-class CategoriaProdutoController extends Controller
+class PersonaController extends Controller
 {
-    public readonly CategoriaProduto $categoriaproduto;
+    public readonly Persona $persona;
+
     public function __construct()
     {
-        $this->categoriaproduto = new CategoriaProduto();
+        $this->persona = new Persona();
     }
+
     public function index()
     {
-        //
+        $personas = $this->persona->all();
+        return response()->json($personas);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['nome', 'arcana', 'nivel']);
+
+        $created = $this->persona->create($data);
+
+        if ($created) {
+            return response()->json(['message' => 'Persona criado com sucesso', 'persona' => $created], 201);
+        }
+
+        return response()->json(['message' => 'Erro ao criar persona'], 500);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(categoria_produto $categoria_produto)
+    public function show(string $id)
     {
-        //
+        $persona = $this->persona->find($id);
+
+        if (!$persona) {
+            return response()->json(['message' => 'Persona não encontrado'], 404);
+        }
+
+        return response()->json($persona);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(categoria_produto $categoria_produto)
+    public function update(Request $request, string $id)
     {
-        //
+        $persona = $this->persona->find($id);
+
+        if (!$persona) {
+            return response()->json(['message' => 'Persona não encontrado'], 404);
+        }
+
+        $updated = $persona->update($request->only(['nome', 'arcana', 'nivel']));
+
+        if ($updated) {
+            return response()->json(['message' => 'Persona atualizado com sucesso', 'persona' => $persona]);
+        }
+
+        return response()->json(['message' => 'Erro ao atualizar persona'], 500);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, categoria_produto $categoria_produto)
+    public function destroy(string $id)
     {
-        //
-    }
+        $persona = $this->persona->find($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(categoria_produto $categoria_produto)
-    {
-        //
+        if (!$persona) {
+            return response()->json(['message' => 'Persona não encontrado'], 404);
+        }
+
+        $persona->delete();
+
+        return response()->json(['message' => 'Persona excluído com sucesso']);
     }
 }
