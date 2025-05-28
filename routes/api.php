@@ -7,8 +7,8 @@ use App\Http\Controllers\AuthController;
 
 Route::apiResource('persona', PersonaController::class)->names('api.persona');
 
-        Route::post('login', [AuthController::class, 'store']);
+        Route::post('login', [AuthController::class, 'login']);
     
-    Route::post('register', [AuthController::class, 'store']);
+    Route::post('register', [AuthController::class, 'register']);
 
-    Route::post('logout', [AuthController::class, 'destroy']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);

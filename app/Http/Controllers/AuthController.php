@@ -23,12 +23,46 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }      
             
-    $user = User::Create([
-        'email'=>$request->email,
-        'password'=> Hash::make($request->password) 
-    ]); 
-    $token = $
+        $user = User::Create([
+            'email'=>$request->email,
+            'password'=> Hash::make($request->password) 
+        ]); 
+        $token = $user->createToken('Persona1 Access Token')->plainTextToken;
+        $response = ['user'=> $user, 'token'=>$token];
+        return response()->json($response, 200);
 
     }
+
+    public function login(Request $request)
+    {
+        $rules = [
+            'email' => 'required',
+            'password' => 'required|string'
+        ];
+        $request->validate($rules);
+
+        $user = User::where('email', $request->email)->first();
+
+        if($user && Hash::check($request->password, $user->password)){
+            $token = $user->createToken('Persona1 Access Token')->plainTextToken;
+            $response=['user'=>$user, 'token'=>$token];
+            return response()->json($response, 200);
+        }
+        $response = ['message'=>'Incorrect email or password'];
+        return response()->json($response, 400);
+    }
+
+    public function logout(Request $request)
+{
+    $user = $request->user();
+
+    if ($user && $user->currentAccessToken()) {
+        $user->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logout successful']);
+    }
+
+    return response()->json(['message' => 'No authenticated user'], 401);
+}
 
 }
