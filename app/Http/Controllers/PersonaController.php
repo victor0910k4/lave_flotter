@@ -16,21 +16,23 @@ class PersonaController extends Controller
 
     public function index()
     {
-        $personas = $this->persona->all();
-        return response()->json($personas);
+        $personas = Persona::All();
+
+        return response()->json(['personas' => $personas]);
     }
 
     public function store(Request $request)
     {
-        $data = $request->only(['nome', 'arcana', 'nivel']);
+        $persona = Persona::create([
+            'nome' => $request->nome,
+            'arcana' => $request->arcana,
+            'nivel' => $request->nivel,
+        ]);
 
-        $created = $this->persona->create($data);
-
-        if ($created) {
-            return response()->json(['message' => 'Persona criado com sucesso', 'persona' => $created], 201);
-        }
-
-        return response()->json(['message' => 'Erro ao criar persona'], 500);
+        return response()->json([
+            'message' => 'Persona criada com sucesso!',
+            'persona' => $persona
+        ], 201);
     }
 
     public function show(string $id)
