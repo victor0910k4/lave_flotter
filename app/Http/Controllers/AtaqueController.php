@@ -16,9 +16,10 @@ class AtaqueController extends Controller
 
     public function index()
     {
-        $ataques = $this->ataque->all();
-        return response()->json($ataques);
+        $ataques = Ataque::All();
+        return response()->json(['ataques' => $ataques]);
     }
+
 
     public function store(Request $request)
     {

@@ -30,7 +30,7 @@ class PersonaController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Persona criada com sucesso!',
+            'message' => 'Persona criado com sucesso!',
             'persona' => $persona
         ], 201);
     }
